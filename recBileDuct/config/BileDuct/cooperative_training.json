@@ -1,0 +1,73 @@
+{
+  "name": "cooperative training",
+  "data": {
+    "dataset_name": "BileDuct",
+    "root_dir": "/data1/zfx/data/BileDuct",
+    "frame": [
+      "bile"
+    ],
+    "image_size": [
+      256,
+      256,
+      1
+    ],
+    "label_size": [
+      256,
+      256
+    ],
+    "pad_size": [
+      256,
+      256,
+      1
+    ],
+    "crop_size": [
+      192,
+      192,
+      1
+    ],
+    "data_aug_policy": "ACDC_affine_elastic_intensity",
+    "image_format_name": "{p_id}/{frame}_img.nii.gz",
+    "label_format_name": "{p_id}/{frame}_seg.nii.gz",
+    "num_classes": 2,
+    "use_cache": true,
+    "keep_orig_image_label_pair_for_training": false,
+    "myocardium_only": false,
+    "right_ventricle_only": false
+  },
+  "segmentation_model": {
+    "network_type": "TAGNet",
+    "num_classes": 2
+  },
+  "learning": {
+    "latent_DA": true,
+    "separate_training": false,
+    "lr": 0.00001,
+    "n_epochs": 300,
+    "max_iteration": 50000,
+    "batch_size": 3,
+    "use_gpu": true
+  },
+  "latent_DA": {
+    "mask_scope": [
+      "image code",
+      "shape code"
+    ],
+    "image code": {
+      "loss_name": "mse",
+      "mask_type": "random",
+      "max_threshold": 0.5,
+      "random_threshold": true,
+      "if_soft": true
+    },
+    "shape code": {
+      "loss_name": "ce",
+      "mask_type": "random",
+      "max_threshold": 0.5,
+      "random_threshold": true,
+      "if_soft": true
+    }
+  },
+  "output": {
+    "save_epoch_every_num_epochs": 50
+  }
+}
